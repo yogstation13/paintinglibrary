@@ -31,3 +31,4 @@ jobs:
           target_branch: live
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VUE_PUBLIC_PATH: "/paintinglibrary"
