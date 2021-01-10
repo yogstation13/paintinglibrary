@@ -20,30 +20,31 @@
         class="crisp"
         img-height="auto"
         img-width="10px"
-        v-for="entry in paintings"
+        v-for="entry in Object.values(infoData)"
         v-bind:key="entry.name"
         background="black"
-        v-bind:caption="infoData[entry.name].title"
-        v-bind:text="infoData[entry.name].ckey"
+        v-bind:caption="entry.title"
+        v-bind:text="entry.ckey"
         v-bind:id="entry.name"
       >
         <template v-slot:img>
           <img
-            v-bind:src="`https://cdn.yogstation.net/paintings/${entry.name}`"
+            v-bind:src="`https://cdn.yogstation.net/paintings/${entry.md5}.png`"
             v-bind:alt="entry.name"
           />
         </template>
 
-        <router-link v-slot="{ href }" v-bind:to="`/${entry.name}`">
+        <router-link v-slot="{ href }" v-bind:to="`/${entry.md5}.png`">
           <b-link class="mx-2" v-on:click="alert(href)" v-bind:href="href"
             >Permalink</b-link
           >
         </router-link>
+
         <b-link
           class="mx-2"
           v-on:click="
             download(
-              `https://cdn.yogstation.net/paintings/${entry.name}`,
+              `https://cdn.yogstation.net/paintings/${entry.md5}.png`,
               entry.name
             )
           "
@@ -62,7 +63,6 @@ import { download } from "@/download";
 export default class Library extends Vue {
   //Data
   // noinspection JSMismatchedCollectionQueryUpdate
-  private paintings: IndexEntry[] = [];
   private infoData: Record<string, Info> = {};
   private carouselIndex = 0;
 
@@ -71,8 +71,6 @@ export default class Library extends Vue {
   }
 
   async refresh() {
-    const index = await fetch("https://cdn.yogstation.net/paintings/json/");
-
     const info = await fetch("https://cdn.yogstation.net/paintings/.info.json");
     const infoData = (await info.json()).public as Info[];
 
@@ -80,16 +78,15 @@ export default class Library extends Vue {
     infoData.forEach(val => {
       Vue.set(obj, val.md5 + ".png", val);
     });
-    this.paintings = (await index.json()) as IndexEntry[];
 
     this.$nextTick(() => {
-      const found = this.paintings.findIndex(val => {
-        return val.name === this.$route.params.id;
+      const found = infoData.findIndex(val => {
+        return val.md5 + ".png" === this.$route.params.id;
       });
       if (found > 0) {
         this.carouselIndex = found;
       } else {
-        this.carouselIndex = Math.floor(Math.random() * this.paintings.length);
+        this.carouselIndex = Math.floor(Math.random() * infoData.length);
       }
     });
   }
