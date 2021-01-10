@@ -131,8 +131,9 @@ img {
   background: rgba(0, 0, 0, 0.4);
   font-weight: bold;
 }
-@media (max-width:500px) {
-  .carousel-caption, .carousel-indicators {
+@media (max-width: 500px) {
+  .carousel-caption,
+  .carousel-indicators {
     display: none;
   }
 }
