@@ -35,19 +35,19 @@
         </template>
 
         <router-link v-slot="{ href }" v-bind:to="`/${entry.name}`">
-          <b-button variant="link" v-on:click="alert(href)" v-bind:href="href">
-            Permalink
-          </b-button>
+          <b-link class="mx-2" v-on:click="alert(href)" v-bind:href="href"
+            >Permalink</b-link
+          >
         </router-link>
-        <b-button
-          variant="link"
+        <b-link
+          class="mx-2"
           v-on:click="
             download(
               `https://cdn.yogstation.net/paintings/${entry.name}`,
               entry.name
             )
           "
-          >Download</b-button
+          >Download</b-link
         >
       </b-carousel-slide>
     </b-carousel>
@@ -139,5 +139,9 @@ img {
 }
 .carousel-caption > h3 {
   font-weight: bolder;
+}
+.carousel-caption > a {
+  color: white;
+  text-decoration: underline;
 }
 </style>
