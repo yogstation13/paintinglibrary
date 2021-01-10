@@ -2,7 +2,7 @@
  * Code stolen from https://stackoverflow.com/questions/49474775
  */
 
-function forceDownload(blob: string, filename: string) {
+export function forceDownload(blob: string, filename: string) {
   const a = document.createElement("a");
   a.download = filename;
   a.href = blob;

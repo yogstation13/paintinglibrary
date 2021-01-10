@@ -10,3 +10,7 @@ declare interface Info {
   md5: string;
   ckey: string;
 }
+
+declare type Entry = Info & {
+  dataUrl: string | null;
+}
