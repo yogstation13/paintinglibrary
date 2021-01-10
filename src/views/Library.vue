@@ -9,12 +9,13 @@
       style="{
 
       }"
-      :interval="4000"
+      v-bind:interval="paused ? 0 : 3500"
       controls
       indicators
       id="carousel"
       no-hover-pause
       v-model="carouselIndex"
+      ref="carousel"
     >
       <b-carousel-slide
         class="crisp"
@@ -58,6 +59,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { download } from "@/download";
+import { BCarousel } from "bootstrap-vue";
 
 @Component
 export default class Library extends Vue {
@@ -65,6 +67,8 @@ export default class Library extends Vue {
   // noinspection JSMismatchedCollectionQueryUpdate
   private infoData: Record<string, Info> = {};
   private carouselIndex = 0;
+  private initialCarouselIndex = 0;
+  private paused = false;
 
   mounted() {
     this.refresh();
@@ -85,6 +89,13 @@ export default class Library extends Vue {
       });
       if (found > 0) {
         this.carouselIndex = found;
+        this.initialCarouselIndex = found;
+        this.paused = true;
+        this.$watch("carouselIndex", (newVal: number) => {
+          if (newVal != this.initialCarouselIndex && this.paused) {
+            this.paused = false;
+          }
+        });
       } else {
         this.carouselIndex = Math.floor(Math.random() * infoData.length);
       }
