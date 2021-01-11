@@ -138,7 +138,9 @@ export default class Library extends Vue {
         .then(blob => {
           newObj.dataUrl = URL.createObjectURL(blob);
           Vue.set(obj, val.md5 + ".png", newObj);
-        });
+        })
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .catch(function() {});
       work.push(promise);
     });
 
