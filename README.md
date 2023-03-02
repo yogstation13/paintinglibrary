@@ -1,3 +1,6 @@
+# Deprecation Notice
+This project is deprecated. It is still accessible at https://yogstation13.github.io/paintinglibrary at the time of writing but it is not guarenteed to remain online or operational.
+
 # paintings
 
 ## Project setup
